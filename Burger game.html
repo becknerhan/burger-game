@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игра по готовке бургеров</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        #burger-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .ingredient {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: -50px;
+            cursor: pointer;
+            user-select: none;
+        }
+        #score {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="color: #3498db;">Игра по готовке бургеров</h1>
+    
+    <div id="burger-container"></div>
+    <div id="score">Счет: <span id="score-value">0</span></div>
+
+    <script>
+        const ingredients = ['🍔', '🍅', '🧀', '🥬', '🥓', '🍟'];
+
+        const burgerContainer = document.getElementById('burger-container');
+        const scoreElement = document.getElementById('score-value');
+
+        let score = 0;
+
+        function addIngredient(ingredient) {
+            const ingredientElement = document.createElement('div');
+            ingredientElement.innerText = ingredient;
+            ingredientElement.classList.add('ingredient');
+            ingredientElement.style.left = Math.random() * (burgerContainer.offsetWidth - 50) + 'px';
+            ingredientElement.addEventListener('click', () => collectIngredient(ingredientElement));
+            burgerContainer.appendChild(ingredientElement);
+        }
+
+        function collectIngredient(ingredientElement) {
+            ingredientElement.remove();
+            updateScore();
+        }
+
+        function updateScore() {
+            score += 10;
+            scoreElement.innerText = score;
+        }
+
+        function getRandomIngredient() {
+            const randomIndex = Math.floor(Math.random() * ingredients.length);
+            return ingredients[randomIndex];
+        }
+
+        function spawnRandomIngredient() {
+            const ingredient = getRandomIngredient();
+            addIngredient(ingredient);
+        }
+
+        setInterval(spawnRandomIngredient, 2000);
+    </script>
+
+</body>
+</html>
